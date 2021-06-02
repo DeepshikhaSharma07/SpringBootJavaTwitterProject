@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Controller
 public class AuthorizationController {
-
+    // injecting our UserService
 @Autowired
 private UserService userService;
 
@@ -32,18 +32,29 @@ private UserService userService;
     }
 
 
+    // this method allows us to have a new user posted to our database
+    // we are going to validate the user
 
     @PostMapping(value = "/signup")
     public String createNewUser(@Valid User user, BindingResult bindingResult, Model model) {
+
+        // here we make an object that will either return a user
+        // from our repository our return null
         User userExists = userService.findByUsername(user.getUsername());
+
+        // null-checking our user variable
         if (userExists != null) {
             bindingResult.rejectValue("username", "error.user", "Username is already taken");
         }
+        // ensuring there's no errors with the binding results
+        // if there's no errors, we can go ahead and continue
         if (!bindingResult.hasErrors()) {
             userService.saveNewUser(user);
             model.addAttribute("success", "Sign up successful!");
             model.addAttribute("user", new User());
         }
+
+        // return a reference to the template
         return "registration";
     }
 

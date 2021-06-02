@@ -6,18 +6,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
-@Entity
 @NoArgsConstructor
-public class Role {
-
+@Entity
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
+    @Column(name = "tag_id")
     private Long id;
-    private String role;
+    private String phrase;
+
+    @ManyToMany(mappedBy ="tags")
+    private List<Tweet> tweets;
 
 }

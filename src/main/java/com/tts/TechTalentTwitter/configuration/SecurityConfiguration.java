@@ -17,13 +17,13 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+    // this autowires our encoder, thus injecting the dependency
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    // this autowires a reference to our datasource
     @Autowired
     private DataSource dataSource;
-
+    // these are queries defined in our application.props
     @Value("${spring.queries.users-query}")
     private String usersQuery;
 

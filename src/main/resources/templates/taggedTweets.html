@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content ="width=device-width, initial-scale=1.0">
-  <title>New Tweet</title>
+  <title>Users</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
   <link rel="stylesheet" href="/custom.css">
@@ -12,26 +12,29 @@
   <script src="/custom.js"></script>
 </head>
 <body>
+
 <div th:replace="fragments/navbar"></div>
 <div class="container">
-
-  <div class="jumbotron col-md-8 col-md-offset-2">
-    <h2>New Tweet</h2><br/>
-    <form th:action="@{/tweets}" th:object="${tweet}" method="post" autocomplete="off">
-      <div class="form-group">
-        <textarea rows="5" th:field="*{message}" placeholder="What's happening?" class="form-control"></textarea>
-        <label th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="validation-message"></label>
+  <h2>Tweets containing #<span th:text="${tag}"></span></h2>
+  <div class="list-group" th:each="tweet:${tweetList}">
+    <div class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <a class="username" th:href="@{/users/} + ${tweet.user.username}">@<span th:text="${tweet.user.username}"></span></a><small> <span th:text="${#dates.format(tweet.createdAt, 'M/d/yy')}"></span></small>
       </div>
-      <div class="form-group">
-        <button class="btn btn-md btn-success btn-block" name="Submit" value="Submit" type="Submit">Tweet it!</button>
-      </div>
-    </form>
-    <div th:if="${successMessage}">
-      <h3><span class="text-success" th:utext="${successMessage}"></span></h3>
+      <p class="mb-1" th:utext="${tweet.message}"></p>
     </div>
   </div>
+  <div th:if="${#lists.isEmpty(tweetList)}">
+    <h3>No tweets contain this hashtag</h3>
+  </div>
+
+  <div th:if="${#lists.isEmpty(tweetList)}">
+    <h3>No tweets contain this hashtag</h3>
+  </div>
+
+
 </div>
+
 </body>
-
-
 </html>
+

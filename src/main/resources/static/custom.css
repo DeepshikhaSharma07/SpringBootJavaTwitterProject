@@ -6,6 +6,10 @@ a.tag {
     color: #0084b4
 }
 body {
- background: rgba(0, 128, 0, 0.1);
+
+ background-repeat: no repeat;
+ background : #17A2B8 url(/images/img.png);
+ background-size: cover;
+
 
 }
